@@ -65,54 +65,6 @@
 
 <body>
     
-<nav class="navbar navbar-expand-lg navbar-light bg-white py-2 header-top sticky-top">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="index.php">
-            <img src="img/logo.png" alt="Günay Logo" style="height: 35px; margin-right: 8px;">Günay
-        </a>
-
-        <div class="d-flex order-lg-3">
-            <a href="üye_giris.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                <i class="fa-solid fa-user me-1"></i> Üye Girişi
-            </a>
-            <a href="servis_cagir.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                <i class="fa-solid fa-screwdriver-wrench me-1"></i> Servis
-            </a>
-            <a href="sepet.php" class="btn btn-light border me-2">
-                <i class="fa-solid fa-cart-shopping text-dark"></i> <span class="badge bg-dark text-white ms-1">0</span>
-            </a>
-            <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
-        
-    </div>
-</nav>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light p-0 header-nav border-bottom"> 
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav py-2">
-                <li class="nav-item">
-                    <a class="nav-link text-dark active-custom" aria-current="page" href="index.php"><i class="fa-solid fa-list me-2"></i>Ürünlerimiz</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="kampanyalar.php">Kampanyalar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Öne Çıkanlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">İletişim</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-    
 <div class="container product-list-page">
     
     <nav aria-label="breadcrumb" class="mb-4">
@@ -122,37 +74,8 @@
       </ol>
     </nav>
 
-    <div class="row">
         
-        <div class="col-lg-3 mb-4">
-            <div class="sidebar">
-                <h5 class="fw-bold mb-3"><i class="fas fa-filter me-2"></i> Filtreler</h5>
-                
-                <div class="mb-4">
-                    <label class="form-label fw-bold">Kapasite (KG)</label>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="capasite8"><label class="form-check-label" for="capasite8">8 KG (8)</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="capasite9"><label class="form-check-label" for="capasite9">9 KG (10)</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="capasite10"><label class="form-check-label" for="capasite10">10 KG ve Üzeri (2)</label></div>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="form-label fw-bold">Motor Tipi</label>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="ecoslience"><label class="form-check-label" for="ecoslience">EcoSilence Drive™</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="inverter"><label class="form-check-label" for="inverter">Inverter</label></div>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="form-label fw-bold">Özel Özellikler</label>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="kurutmali"><label class="form-check-label" for="kurutmali">Kurutmalı</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="idos"><label class="form-check-label" for="idos">Otomatik Dozajlama (i-DOS)</label></div>
-                </div>
-                
-                <button class="btn btn-primary w-100 mt-2">Filtrele</button>
-                <button class="btn btn-outline-secondary w-100 mt-2">Sıfırla</button>
-            </div>
-        </div>
-        
-        <div class="col-lg-9">
+        <div class="col-lg-12">
             
             <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
                 <p class="mb-0 fw-bold">Gösterilen Ürün: <span class="text-primary">6</span></p>
@@ -171,16 +94,16 @@
                 
                 <div class="col">
                     <div class="card product-card h-100 p-2">
-                        <a href="camasir-detay.php?model=CMD-MDL-1">
-                            <img src="img/camasir-kart-1.webp" class="card-img-top" alt="Serie 8 i-DOS Çamaşır Makinesi">
+                        <a href="urun-detay.php?model=WGB254ASTR">
+                            <img src="img/camasır-WGB254ASTR.webp" class="card-img-top" alt="Serie 8 i-DOS Çamaşır Makinesi">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Serie 8 Çamaşır Makinesi (i-DOS)</h5>
-                            <p class="card-text text-muted small mb-3">10 kg, 1400 dev./dak., Otomatik Dozajlama, Beyaz</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 8</h5>
+                            <p class="card-text text-muted small mb-3">Çamaşır Makinesi 10 kg maks. 1400 dev./dak., Gümüş</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺34.280,00</p>
-                                <a href="sepet.php?action=add&model=CMD-MDL-1" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="camasir-detay.php?model=CMD-MDL-1" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺66.280,00</p>
+                                <a href="sepet.php?action=add&model=WGB254ASTR" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=WGB254ASTR" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -188,16 +111,16 @@
                 
                 <div class="col">
                     <div class="card product-card h-100 p-2">
-                        <a href="camasir-detay.php?model=CMD-MDL-2">
-                            <img src="img/camasir-kart-2.webp" class="card-img-top" alt="Serie 6 Çamaşır Makinesi">
+                        <a href="urun-detay.php?model=WGB254A1TR">
+                            <img src="img/camasır-WGB254A1TR.webp" class="card-img-top" alt="Serie 6 Çamaşır Makinesi">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Serie 6 Çamaşır Makinesi</h5>
-                            <p class="card-text text-muted small mb-3">9 kg, 1200 dev./dak., EcoSilence Drive™</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 8</h5>
+                            <p class="card-text text-muted small mb-3">Çamaşır Makinesi 10 kg maks. 1400 dev./dak.</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺21.970,00</p>
-                                <a href="sepet.php?action=add&model=CMD-MDL-2" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="camasir-detay.php?model=CMD-MDL-2" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺64.970,00</p>
+                                <a href="sepet.php?action=add&model=WGB254A1TR" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=WGB254A1TR" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -205,16 +128,16 @@
                 
                 <div class="col">
                     <div class="card product-card h-100 p-2">
-                        <a href="camasir-detay.php?model=CMD-MDL-3">
-                            <img src="img/camasir-kurutmali-kart.webp" class="card-img-top" alt="Kurutmalı Çamaşır Makinesi">
+                        <a href="urun-detay.php?model=WGB244A0TR">
+                            <img src="img/camasır-WGB244A0TR.webp" class="card-img-top" alt="Kurutmalı Çamaşır Makinesi">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Kurutmalı Çamaşır Makinesi</h5>
-                            <p class="card-text text-muted small mb-3">10.5 kg yıkama / 6 kg kurutma, Gümüş</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 8</h5>
+                            <p class="card-text text-muted small mb-3">Çamaşır Makinesi 9 kg maks. 1400 dev./dak.</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺45.990,00</p>
-                                <a href="sepet.php?action=add&model=CMD-MDL-3" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="camasir-detay.php?model=CMD-MDL-3" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺59.390,00</p>
+                                <a href="sepet.php?action=add&model=WGB244A0TR" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=WGB244A0TR" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -222,16 +145,16 @@
                 
                 <div class="col">
                     <div class="card product-card h-100 p-2">
-                        <a href="camasir-detay.php?model=CMD-MDL-4">
-                            <img src="img/camasir-kart-1.webp" class="card-img-top" alt="Serie 8 Home Connect">
+                        <a href="urun-detay.php?model=WGK264F0TR">
+                            <img src="img/camasır-WGK264F0TR.webp" class="card-img-top" alt="Serie 8 Home Connect">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Serie 8 Home Connect</h5>
-                            <p class="card-text text-muted small mb-3">9 kg, 1600 dev./dak., Wi-Fi Bağlantılı</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 6</h5>
+                            <p class="card-text text-muted small mb-3">Çamaşır Makinesi 11 kg maks. 1400 dev./dak.</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺38.800,00</p>
-                                <a href="sepet.php?action=add&model=CMD-MDL-4" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="camasir-detay.php?model=CMD-MDL-4" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺47.320,00</p>
+                                <a href="sepet.php?action=add&model=WGK264F0TR" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=WGK264F0TR" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -239,16 +162,16 @@
                 
                 <div class="col">
                     <div class="card product-card h-100 p-2">
-                        <a href="camasir-detay.php?model=CMD-MDL-5">
-                            <img src="img/camasir-kart-2.webp" class="card-img-top" alt="Serie 4 Ekonomik Model">
+                        <a href="urun-detay.php?model=WGK264ZRTR">
+                            <img src="img/camasır-WGK264ZRTR.webp" class="card-img-top" alt="Serie 4 Ekonomik Model">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Serie 4 Ekonomik Model</h5>
-                            <p class="card-text text-muted small mb-3">8 kg, 1000 dev./dak., Temel Yıkama Programları</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 6</h5>
+                            <p class="card-text text-muted small mb-3">Çamaşır Makinesi 11 kg maks. 1400 dev./dak., Antrasit</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺18.298,00</p>
-                                <a href="sepet.php?action=add&model=CMD-MDL-5" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="camasir-detay.php?model=CMD-MDL-5" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺45.380,00</p>
+                                <a href="sepet.php?action=add&model=WGK264ZRTR" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=WGK264ZRTR" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -256,16 +179,16 @@
                 
                 <div class="col">
                     <div class="card product-card h-100 p-2">
-                        <a href="camasir-detay.php?model=CMD-MDL-6">
-                            <img src="img/camasir-kurutmali-kart.webp" class="card-img-top" alt="Serie 8 Kurutmalı Premium">
+                        <a href="urun-detay.php?model=WGA244ZRTR">
+                            <img src="img/camasır-WGA244ZRTR.webp" class="card-img-top" alt="Serie 8 Kurutmalı Premium">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Serie 8 Kurutmalı Premium</h5>
-                            <p class="card-text text-muted small mb-3">10 kg yıkama / 6 kg kurutma, AutoDry</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 4</h5>
+                            <p class="card-text text-muted small mb-3">Çamaşır Makinesi 9 kg maks. 1400 dev./dak., Antrasit</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺51.910,00</p>
-                                <a href="sepet.php?action=add&model=CMD-MDL-6" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="camasir-detay.php?model=CMD-MDL-6" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺42.020,00</p>
+                                <a href="sepet.php?action=add&model=WGA244ZRTR" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=WGA244ZRTR" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -277,8 +200,6 @@
                 <ul class="pagination justify-content-center">
                     <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a></li>
                     <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item"><a class="page-link" href="#">Sonraki</a></li>
                 </ul>
             </nav>
@@ -287,17 +208,6 @@
     </div>
 </div>
     
-<footer class="site-footer bg-dark text-white py-5 mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-3"><h6>Günay</h6><br><p class="small">Adres: Cumhuriyet Mahallesi Kıbrıs Cd. No:52, 06760 Çubuk/Ankara.</p></div>
-            <div class="col-md-2 mb-3"><h6>Ürünler</h6><br><ul class="footer-products list-unstyled small"><li><a href="buzdolaplari.php" class="text-white text-decoration-none">Buzdolabı</a></li><li><a href="camasir.php" class="text-white text-decoration-none">Çamaşır</a></li></ul></div>
-            <div class="col-md-3 mb-3"><h6>Yardım</h6><br><ul class="footer-products list-unstyled small"><li><a href="#" class="text-white text-decoration-none">Garanti ve Servis</a></li></ul></div>
-            <div class="col-md-3 mb-3"><h6>Bizi Takip Edin</h6><br></div>
-        </div>
-        <div class="row mt-4"><div class="col-12 text-center small">© 2025 Günay. Tüm hakları saklıdır.</div></div>
-    </div>
-</footer>
 
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">

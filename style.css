@@ -89,6 +89,7 @@ nav a:visited{
     text-decoration: none;
     box-shadow: none;
     text-align: center;
+    transition: all .15s ease;
 }
 
 .link-list .btn:hover,
@@ -97,6 +98,7 @@ nav a:visited{
     color: #000;
     box-shadow: 0 6px 18px rgba(16,24,40,0.06);
     transform: translateY(-2px);
+    transform: scale(1.20);
 }
 
 
@@ -246,4 +248,8 @@ body.login-page {
     .login-card {
         border-radius: 8px; 
     }
+}
+.urun-kart:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }

@@ -54,7 +54,7 @@
                         </form>
                         
                         <div class="text-center forgot-password">
-                            <a href="üye_giris.php" class="me-2">Giriş Sayfasına Geri Dön</a> 
+                            <a href="uye_giris.php" class="me-2">Giriş Sayfasına Geri Dön</a> 
                         </div>
                     </div>
                 </div>

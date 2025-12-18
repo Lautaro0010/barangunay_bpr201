@@ -43,7 +43,7 @@
         </a>
 
         <div class="d-flex order-lg-3">
-            <a href="üye_giris.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
+            <a href="uye_giris.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
                 <i class="fa-solid fa-user me-1"></i> Üye Girişi
             </a>
             <a href="servis_cagir.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
@@ -52,9 +52,6 @@
             <a href="sepet.php" class="btn btn-light border me-2">
                 <i class="fa-solid fa-cart-shopping text-dark"></i> <span class="badge bg-dark text-white ms-1">0</span>
             </a>
-            <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
         </div>
         
     </div>
@@ -74,10 +71,7 @@
                     <a class="nav-link text-dark" href="kampanyalar.php">Kampanyalar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Öne Çıkanlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">İletişim</a>
+                    <a class="nav-link text-dark" href="iletisim.php">İletişim</a>
                 </li>
             </ul>
         </div>
@@ -133,7 +127,7 @@
                 </form>
                 
                 <div class="text-center mt-3">
-                    <small class="text-muted">Zaten hesabınız var mı? <a href="üye_giris.php" class="text-primary fw-bold">Giriş Yap</a></small>
+                    <small class="text-muted">Zaten hesabınız var mı? <a href="uye_giris.php" class="text-primary fw-bold">Giriş Yap</a></small>
                 </div>
 
             </div>

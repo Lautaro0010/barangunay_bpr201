@@ -22,11 +22,10 @@
         }
         
         .servis-page-content {
-            /
-            padding-top: 100px; 
-            min-height: 100vh; /
+            padding-top: -10px; 
+            min-height: auto;
             display: flex; 
-            align-items: center; 
+            align-items: flex-start; 
             justify-content: center; 
             width: 100%; 
             padding-bottom: 20px; 
@@ -34,7 +33,7 @@
 
         
         .login-card {
-            margin-top: 40px; 
+            margin-top: 0px; 
             margin-bottom: 40px;
             width: 100%; 
         }
@@ -48,54 +47,7 @@
 
 <body class="bg-light">
 
-<div class="fixed-nav-top">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 header-top border-bottom">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="index.php">
-                <img src="img/logo.png" alt="Günay Logo" style="height: 35px; margin-right: 8px;">Günay
-            </a>
-
-            <div class="d-flex order-lg-3">
-                <a href="üye_giris.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                    <i class="fa-solid fa-user me-1"></i> Üye Girişi
-                </a>
-                <a href="servis_cagir.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                    <i class="fa-solid fa-screwdriver-wrench me-1"></i> Servis
-                </a>
-                <a href="sepet.php" class="btn btn-light border me-2">
-                    <i class="fa-solid fa-cart-shopping text-dark"></i> <span class="badge bg-dark text-white ms-1">0</span>
-                </a>
-                <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 header-nav border-bottom"> 
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav py-2">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" aria-current="page" href="index.php"><i class="fa-solid fa-list me-2"></i>Ürünlerimiz</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="kampanyalar.php">Kampanyalar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="#">Öne Çıkanlar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="#">İletişim</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
+<br><br>
 <div class="container servis-page-content">
     <div class="row justify-content-center w-100">
         <div class="col-lg-9 col-md-11"> 
@@ -104,7 +56,6 @@
                 <div class="col-md-6 login-illustration">
                     <h4>Hızlı Teknik Destek</h4>
                     <p>Uzman teknik ekibimizle hızlı ve güvenilir servis hizmeti almak için formu doldurunuz. Garanti sorgulama, onarım ve kurulum hizmetleri.</p>
-                    <a href="#" class="btn btn-outline-light mt-3">Garanti Sorgula</a>
                 </div>
                 
                 <div class="col-md-6 login-form-area">
@@ -153,9 +104,6 @@
                         </div>
                     </form>
                     
-                    <div class="text-center forgot-password">
-                        <a href="tel:+905467939499" class="me-2"><i class="fa-solid fa-phone me-1"></i> Telefonla Çağır</a> 
-                    </div>
                 </div>
             </div>
         </div>

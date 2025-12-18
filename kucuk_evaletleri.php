@@ -65,53 +65,7 @@
 
 <body>
     
-<nav class="navbar navbar-expand-lg navbar-light bg-white py-2 header-top sticky-top">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="index.php">
-            <img src="img/logo.png" alt="Günay Logo" style="height: 35px; margin-right: 8px;">Günay
-        </a>
 
-        <div class="d-flex order-lg-3">
-            <a href="üye_giris.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                <i class="fa-solid fa-user me-1"></i> Üye Girişi
-            </a>
-            <a href="servis_cagir.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                <i class="fa-solid fa-screwdriver-wrench me-1"></i> Servis
-            </a>
-            <a href="sepet.php" class="btn btn-light border me-2">
-                <i class="fa-solid fa-cart-shopping text-dark"></i> <span class="badge bg-dark text-white ms-1">0</span>
-            </a>
-            <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
-        
-    </div>
-</nav>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light p-0 header-nav border-bottom"> 
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav py-2">
-                <li class="nav-item">
-                    <a class="nav-link text-dark active-custom" aria-current="page" href="index.php"><i class="fa-solid fa-list me-2"></i>Ürünlerimiz</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="kampanyalar.php">Kampanyalar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Öne Çıkanlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">İletişim</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
     
 <div class="container product-list-page">
     
@@ -123,38 +77,8 @@
       </ol>
     </nav>
 
-    <div class="row">
-        
-        <div class="col-lg-3 mb-4">
-            <div class="sidebar">
-                <h5 class="fw-bold mb-3"><i class="fas fa-filter me-2"></i> Filtreler</h5>
-                
-                <div class="mb-4">
-                    <label class="form-label fw-bold">Ürün Tipi</label>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="blenderSeti"><label class="form-check-label" for="blenderSeti">Blender Seti</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="kahveMakinesi"><label class="form-check-label" for="kahveMakinesi">Kahve Makinesi (Filtre/Türk)</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="tostMakinesi"><label class="form-check-label" for="tostMakinesi">Tost Makinesi/Izgara</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="mutfakRobotu"><label class="form-check-label" for="mutfakRobotu">Mutfak Robotu/Şef</label></div>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="form-label fw-bold">Güç (Watt)</label>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="750w"><label class="form-check-label" for="750w">750W - 1000W</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="1000wuzeri"><label class="form-check-label" for="1000wuzeri">1000W Üzeri</label></div>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="form-label fw-bold">Malzeme</label>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="paslanmazCelil"><label class="form-check-label" for="paslanmazCelil">Paslanmaz Çelik</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="camHazne"><label class="form-check-label" for="camHazne">Cam Hazne</label></div>
-                </div>
-                
-                <button class="btn btn-primary w-100 mt-2">Filtrele</button>
-                <button class="btn btn-outline-secondary w-100 mt-2">Sıfırla</button>
-            </div>
-        </div>
-        
-        <div class="col-lg-9">
+    
+        <div class="col-lg-12">
             
             <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
                 <p class="mb-0 fw-bold">Gösterilen Ürün: <span class="text-primary">6</span></p>
@@ -174,15 +98,15 @@
                 <div class="col">
                     <div class="card product-card h-100 p-2">
                         <a href="kucuk-detay.php?model=KEA-MDL-1">
-                            <img src="img/kucuk-evaleti-1.webp" class="card-img-top" alt="Premium Blender Seti">
+                            <img src="img/ev_aleti-TQU60703.webp" class="card-img-top" alt="Premium Blender Seti">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Premium Turbo Blender Seti</h5>
-                            <p class="card-text text-muted small mb-3">1500W, Paslanmaz Çelik Ayak, Doğrayıcı Hazne</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 8</h5>
+                            <p class="card-text text-muted small mb-3">Tam Otomatik Kahve Makinesi VeroCafe Paslanmaz çelik</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺2.590,00</p>
-                                <a href="sepet.php?action=add&model=KEA-MDL-1" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="kucuk-detay.php?model=KEA-MDL-1" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺58.200,00</p>
+                                <a href="sepet.php?action=add&model=TQU60703" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=TQU60703" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -191,15 +115,15 @@
                 <div class="col">
                     <div class="card product-card h-100 p-2">
                         <a href="kucuk-detay.php?model=KEA-MDL-2">
-                            <img src="img/kucuk-evaleti-2.webp" class="card-img-top" alt="Tam Otomatik Kahve Makinesi">
+                            <img src="img/ev_aleti-TPU40307.webp" class="card-img-top" alt="Tam Otomatik Kahve Makinesi">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Tam Otomatik Filtre Kahve Makinesi</h5>
-                            <p class="card-text text-muted small mb-3">Zamanlayıcı, 12 Fincan Kapasitesi, Cam Sürahi</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 4</h5>
+                            <p class="card-text text-muted small mb-3">Tam Otomatik Kahve Makinesi VeroCafe Metalik inoks gümüş, Piyano siyah</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺3.490,00</p>
-                                <a href="sepet.php?action=add&model=KEA-MDL-2" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="kucuk-detay.php?model=KEA-MDL-2" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺28.060,00</p>
+                                <a href="sepet.php?action=add&model=TPU40307" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=TPU40307" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -208,15 +132,15 @@
                 <div class="col">
                     <div class="card product-card h-100 p-2">
                         <a href="kucuk-detay.php?model=KEA-MDL-3">
-                            <img src="img/kucuk-evaleti-3.webp" class="card-img-top" alt="Büyük Boy Tost Makinesi">
+                            <img src="img/ev_aleti-MCM3501M.webp" class="card-img-top" alt="Büyük Boy Tost Makinesi">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Mega Izgara ve Tost Makinesi</h5>
-                            <p class="card-text text-muted small mb-3">2000W, Döküm Plakalar, 6 Dilim Kapasite</p>
+                            <h5 class="card-title fw-bold small mb-1">Mutfak Robotu</h5>
+                            <p class="card-text text-muted small mb-3">MultiTalent 3 800 W Siyah, Paslanmaz çelik</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺1.990,00</p>
-                                <a href="sepet.php?action=add&model=KEA-MDL-3" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="kucuk-detay.php?model=KEA-MDL-3" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺8.940,00</p>
+                                <a href="sepet.php?action=add&model=MCM3501M" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=MCM3501M" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -225,15 +149,14 @@
                 <div class="col">
                     <div class="card product-card h-100 p-2">
                         <a href="kucuk-detay.php?model=KEA-MDL-4">
-                            <img src="img/kucuk-evaleti-4.webp" class="card-img-top" alt="Profesyonel Mutfak Şefi">
+                            <img src="img/ev_aleti-TCG4215.webp" class="card-img-top" alt="Profesyonel Mutfak Şefi">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Profesyonel Mutfak Şefi</h5>
-                            <p class="card-text text-muted small mb-3">1200W, Planet Karıştırma, Büyük Paslanmaz Kase</p>
+                            <h5 class="card-title fw-bold small mb-1">Tost Makinesi Gümüş</h5>
                             <div class="mt-auto">
                                 <p class="product-price-main mb-3">₺5.800,00</p>
-                                <a href="sepet.php?action=add&model=KEA-MDL-4" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="kucuk-detay.php?model=KEA-MDL-4" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <a href="sepet.php?action=add&model=TCG4215" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=TCG4215" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -242,15 +165,15 @@
                 <div class="col">
                     <div class="card product-card h-100 p-2">
                         <a href="kucuk-detay.php?model=KEA-MDL-5">
-                            <img src="img/kucuk-evaleti-1.webp" class="card-img-top" alt="Temel Blender Seti">
+                            <img src="img/ev_aleti-MSM4B674.webp" class="card-img-top" alt="Temel Blender Seti">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Temel El Blender Seti</h5>
-                            <p class="card-text text-muted small mb-3">750W, Çırpıcı Aparatı, Tek Hız Ayarı</p>
+                            <h5 class="card-title fw-bold small mb-1">Serie 4</h5>
+                            <p class="card-text text-muted small mb-3">El Blenderı ErgoMaster 1000 W Siyah, Antrasit</p>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺1.250,00</p>
-                                <a href="sepet.php?action=add&model=KEA-MDL-5" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="kucuk-detay.php?model=KEA-MDL-5" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺4.900,00</p>
+                                <a href="sepet.php?action=add&model=MSM4B674" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=MSM4B674" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -259,15 +182,14 @@
                 <div class="col">
                     <div class="card product-card h-100 p-2">
                         <a href="kucuk-detay.php?model=KEA-MDL-6">
-                            <img src="img/kucuk-evaleti-2.webp" class="card-img-top" alt="Türk Kahvesi Makinesi">
+                            <img src="img/ev_aleti-TKA4M233.webp" class="card-img-top" alt="Türk Kahvesi Makinesi">
                         </a>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold small mb-1">Türk Kahvesi Makinesi</h5>
-                            <p class="card-text text-muted small mb-3">Köpük Algılama Teknolojisi, 4 Fincan Kapasitesi</p>
+                            <h5 class="card-title fw-bold small mb-1">Filtre Kahve Makinesi</h5>
                             <div class="mt-auto">
-                                <p class="product-price-main mb-3">₺1.910,00</p>
-                                <a href="sepet.php?action=add&model=KEA-MDL-6" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                                <small class="d-block mt-2"><a href="kucuk-detay.php?model=KEA-MDL-6" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+                                <p class="product-price-main mb-3">₺3.820,00</p>
+                                <a href="sepet.php?action=add&model=TKA4M233" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
+                                <small class="d-block mt-2"><a href="urun-detay.php?model=TKA4M233" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
                             </div>
                         </div>
                     </div>
@@ -279,8 +201,6 @@
                 <ul class="pagination justify-content-center">
                     <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a></li>
                     <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item"><a class="page-link" href="#">Sonraki</a></li>
                 </ul>
             </nav>
@@ -289,17 +209,6 @@
     </div>
 </div>
     
-<footer class="site-footer bg-dark text-white py-5 mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-3"><h6>Günay</h6><br><p class="small">Adres: Cumhuriyet Mahallesi Kıbrıs Cd. No:52, 06760 Çubuk/Ankara.</p></div>
-            <div class="col-md-2 mb-3"><h6>Ürünler</h6><br><ul class="footer-products list-unstyled small"><li><a href="buzdolaplari.php" class="text-white text-decoration-none">Buzdolabı</a></li><li><a href="camasir.php" class="text-white text-decoration-none">Çamaşır</a></li><li><a href="bulasik.php" class="text-white text-decoration-none">Bulaşık</a></li><li><a href="firin.php" class="text-white text-decoration-none">Fırın</a></li><li><a href="ankastre.php" class="text-white text-decoration-none">Ankastre</a></li><li><a href="supurge.php" class="text-white text-decoration-none">Süpürge</a></li><li><a href="klima.php" class="text-white text-decoration-none">Klima</a></li><li><a href="kucuk_evaletleri.php" class="text-white text-decoration-none">Küçük Ev Aletleri</a></li></ul></div>
-            <div class="col-md-3 mb-3"><h6>Yardım</h6><br><ul class="footer-products list-unstyled small"><li><a href="#" class="text-white text-decoration-none">Garanti ve Servis</a></li></ul></div>
-            <div class="col-md-3 mb-3"><h6>Bizi Takip Edin</h6><br></div>
-        </div>
-        <div class="row mt-4"><div class="col-12 text-center small">© 2025 Günay. Tüm hakları saklıdır.</div></div>
-    </div>
-</footer>
 
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">

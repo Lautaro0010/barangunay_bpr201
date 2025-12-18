@@ -1,230 +1,254 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Veritabanı bağlantısı
+include 'db.php';
+
+// Kullanıcı giriş yapmamışsa uyaralım (İsteğe bağlı ama önerilir)
+$user_id = $_SESSION['user_id'] ?? null;
+
+// Sepet tutarını hesapla
+$ara_toplam = 0.0;
+if (isset($_SESSION['sepet']) && is_array($_SESSION['sepet'])) {
+    foreach ($_SESSION['sepet'] as $it) {
+        $fiyat = isset($it['fiyat']) ? floatval($it['fiyat']) : 0;
+        $adet = isset($it['adet']) ? intval($it['adet']) : 1;
+        $ara_toplam += $fiyat * $adet;
+    }
+}
+
+$odenecek_toplam = $ara_toplam;
+$order_confirmed = false;
+
+// Sipariş tamamlama işlemi
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
+    $ad = trim($_POST['ad'] ?? '');
+    $soyad = trim($_POST['soyad'] ?? '');
+    $adres = trim($_POST['adres'] ?? '');
+    $sehir = trim($_POST['sehir'] ?? '');
+    $posta_kodu = trim($_POST['posta_kodu'] ?? '');
+    $telefon = trim($_POST['telefon'] ?? '');
+    $payment_method = trim($_POST['payment_method'] ?? 'Belirtilmedi');
+
+    $order_id = 'ORD_' . strtoupper(uniqid());
+
+    // --- SADELEŞTİRİLMİŞ ÜRÜN LİSTESİ OLUŞTURMA ---
+    $simple_items = [];
+    if (isset($_SESSION['sepet']) && is_array($_SESSION['sepet'])) {
+        foreach ($_SESSION['sepet'] as $it) {
+            $kod = $it['model_kodu'] ?? ($it['ad'] ?? ($it['id'] ?? 'Bilinmeyen'));
+            $adet = isset($it['adet']) ? intval($it['adet']) : 1;
+            $simple_items[] = $kod . " (" . $adet . " adet)";
+        }
+    }
+    $items_json = json_encode($simple_items, JSON_UNESCAPED_UNICODE);
+    // ---------------------------------------------
+
+    try {
+        // Tabloyu kontrol et ve user_id sütununu ekleyerek oluştur
+        $db->exec("CREATE TABLE IF NOT EXISTS siparisler (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT,
+            order_id VARCHAR(64) UNIQUE,
+            tarih DATETIME,
+            ad VARCHAR(255),
+            soyad VARCHAR(255),
+            adres TEXT,
+            sehir VARCHAR(100),
+            posta_kodu VARCHAR(20),
+            telefon VARCHAR(50),
+            payment_method VARCHAR(50),
+            toplam DECIMAL(10,2),
+            items JSON
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        $tarih_db = date('Y-m-d H:i:s');
+
+        // INSERT sorgusuna user_id eklendi
+        $insert = $db->prepare("INSERT INTO siparisler (user_id, order_id, tarih, ad, soyad, adres, sehir, posta_kodu, telefon, payment_method, toplam, items)
+            VALUES (:user_id, :order_id, :tarih, :ad, :soyad, :adres, :sehir, :posta_kodu, :telefon, :payment_method, :toplam, :items)");
+
+        $insert->execute([
+            ':user_id'        => $user_id, // Burası senin siparişlerim sayfasında görmeni sağlar
+            ':order_id'       => $order_id,
+            ':tarih'          => $tarih_db,
+            ':ad'             => $ad,
+            ':soyad'          => $soyad,
+            ':adres'          => $adres,
+            ':sehir'          => $sehir,
+            ':posta_kodu'     => $posta_kodu,
+            ':telefon'        => $telefon,
+            ':payment_method' => $payment_method,
+            ':toplam'         => $odenecek_toplam,
+            ':items'          => $items_json
+        ]);
+
+        // Bilgileri onay ekranı için session'a kaydet
+        $_SESSION['last_order'] = [
+            'id' => $order_id,
+            'ad' => $ad,
+            'soyad' => $soyad,
+            'adres' => $adres,
+            'payment_method' => $payment_method,
+            'odenecek_toplam' => $odenecek_toplam
+        ];
+
+        // Sepeti temizle
+        unset($_SESSION['sepet']);
+        $order_confirmed = true;
+
+    } catch (PDOException $e) {
+        error_log('Sipariş DB hatası: ' . $e->getMessage());
+        echo "Bir hata oluştu, lütfen tekrar deneyin.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Günay - Ödeme İşlemi</title>
-    
     <script src="https://kit.fontawesome.com/248da3bf98.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="login_style.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .payment-progress {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 30px;
-        }
-        .step {
-            color: #6c757d;
-            font-weight: bold;
-        }
-        .step.active {
-            color: #343a40; 
-        }
-        .form-section-title {
-            border-bottom: 2px solid #343a40;
-            padding-bottom: 5px;
-            margin-bottom: 20px;
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-        .summary-card-payment {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            padding: 25px;
-            position: sticky;
-            top: 20px;
-        }
+        .form-section-title { border-bottom: 2px solid #343a40; padding-bottom: 5px; margin-bottom: 20px; font-size: 1.25rem; font-weight: bold; }
+        .summary-card-payment { background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 25px; position: sticky; top: 20px; }
+        .login-button { background-color: #343a40; border: none; color: white; }
+        .login-button:hover { background-color: #000; color: white; }
     </style>
 </head>
-
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 header-top sticky-top">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="index.php">
-            <img src="img/logo.png" alt="Günay Logo" style="height: 35px; margin-right: 8px;">Günay
-        </a>
-
-        <div class="d-flex order-lg-3">
-            <a href="üye_giris.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                <i class="fa-solid fa-user me-1"></i> Üye Girişi
-            </a>
-            <a href="servis_cagir.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                <i class="fa-solid fa-screwdriver-wrench me-1"></i> Servis
-            </a>
-            <a href="sepet.php" class="btn btn-light border me-2">
-                <i class="fa-solid fa-cart-shopping text-dark"></i> <span class="badge bg-dark text-white ms-1">0</span>
-            </a>
-            <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
-        
-    </div>
-</nav>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light p-0 header-nav border-bottom"> 
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav py-2">
-                <li class="nav-item">
-                    <a class="nav-link text-dark active-custom" aria-current="page" href="index.php"><i class="fa-solid fa-list me-2"></i>Ürünlerimiz</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="kampanyalar.php">Kampanyalar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Öne Çıkanlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">İletişim</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-    
-    <div class="container my-5">
-        <h2 class="mb-4 fw-bold">Ödeme İşlemi</h2>
-
-        <div class="payment-progress d-flex justify-content-between text-center">
-            <div class="step active"><i class="fa-solid fa-location-dot me-1"></i> Adres</div>
-            <div class="step"><i class="fa-solid fa-credit-card me-1"></i> Ödeme Yöntemi</div>
-            <div class="step"><i class="fa-solid fa-check-circle me-1"></i> Onay</div>
-        </div>
-
-        <div class="row mt-4">
-            
-            <div class="col-lg-8">
-                <div class="card p-4 shadow-sm mb-4">
-                    
-                    <div class="form-section-title">Teslimat Adresi</div>
-                    
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label for="ad" class="form-label">Adınız</label>
-                            <input type="text" class="form-control" id="ad" value="Ahmet" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="soyad" class="form-label">Soyadınız</label>
-                            <input type="text" class="form-control" id="soyad" value="Yılmaz" required>
-                        </div>
-                        <div class="col-12">
-                            <label for="adres" class="form-label">Açık Adres</label>
-                            <input type="text" class="form-control" id="adres" placeholder="Mahalle, Cadde, Apartman No..." required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="sehir" class="form-label">Şehir</label>
-                            <select id="sehir" class="form-select" required>
-                                <option selected>İzmir</option>
-                                <option>Ankara</option>
-                                <option>İstanbul</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="posta-kodu" class="form-label">Posta Kodu</label>
-                            <input type="text" class="form-control" id="posta-kodu" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="telefon" class="form-label">Telefon</label>
-                            <input type="tel" class="form-control" id="telefon" required>
-                        </div>
-                    </div>
-
-                    <div class="form-section-title">Ödeme Yöntemi</div>
-                    
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_method" id="kredi_karti" checked>
-                            <label class="form-check-label" for="kredi_karti">
-                                Kredi Kartı / Banka Kartı
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_method" id="havale_eft">
-                            <label class="form-check-label" for="havale_eft">
-                                Havale / EFT
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div id="credit-card-details" class="row g-3 border rounded p-3 mb-4">
-                        <div class="col-12">
-                            <label for="kart-no" class="form-label">Kart Numarası</label>
-                            <input type="text" class="form-control" id="kart-no" placeholder="XXXX XXXX XXXX XXXX" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="son-kullanma" class="form-label">Son Kullanma Tarihi</label>
-                            <input type="text" class="form-control" id="son-kullanma" placeholder="AA/YY" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="cvv" class="form-label">CVV</label>
-                            <input type="text" class="form-control" id="cvv" placeholder="Üç Rakam" required>
-                        </div>
-                    </div>
-
-                    <div class="form-check mb-4">
-                        <input class="form-check-input" type="checkbox" value="" id="sartlar" required>
-                        <label class="form-check-label" for="sartlar">
-                            <a href="#">Şartlar ve koşulları</a> okudum ve kabul ediyorum.
-                        </label>
-                    </div>
-
-                </div>
+<div class="container my-5">
+    <?php if ($order_confirmed): ?>
+        <div class="card p-5 shadow-sm border-0 text-center">
+            <i class="fa-solid fa-circle-check text-success fa-5x mb-4"></i>
+            <h2 class="fw-bold text-success">Siparişiniz Alındı!</h2>
+            <p class="lead">Sipariş Numaranız: <strong><?php echo $_SESSION['last_order']['id']; ?></strong></p>
+            <hr>
+            <div class="text-start mx-auto" style="max-width: 500px;">
+                <p><strong>Teslimat:</strong> <?php echo htmlspecialchars($_SESSION['last_order']['ad'] . ' ' . $_SESSION['last_order']['soyad']); ?></p>
+                <p><strong>Adres:</strong> <?php echo htmlspecialchars($_SESSION['last_order']['adres']); ?></p>
+                <p><strong>Ödeme Yöntemi:</strong> <?php echo htmlspecialchars($_SESSION['last_order']['payment_method']); ?></p>
+                <p class="h5"><strong>Toplam: <?php echo number_format($_SESSION['last_order']['odenecek_toplam'], 2, ',', '.'); ?> TL</strong></p>
             </div>
-
-            <div class="col-lg-4">
-                <div class="summary-card-payment">
-                    <h5 class="mb-4">Sipariş Özeti</h5>
-
-                    <ul class="list-unstyled">
-                        <li class="d-flex justify-content-between mb-2 small">
-                            <span>Ara Toplam:</span>
-                            <span class="fw-bold">65.498,00 TL</span>
-                        </li>
-                         <li class="d-flex justify-content-between mb-2 small">
-                            <span>KDV (%20):</span>
-                            <span class="fw-bold">13.099,60 TL</span>
-                        </li>
-                        <li class="d-flex justify-content-between mb-2 small">
-                            <span>Kargo Ücreti:</span>
-                            <span class="text-success fw-bold">ÜCRETSİZ</span>
-                        </li>
-                        <li class="d-flex justify-content-between mb-4 border-top pt-3">
-                            <span class="h5 mb-0">Ödenecek Toplam:</span>
-                            <span class="h5 mb-0 fw-bold text-danger">78.597,60 TL</span>
-                        </li>
-                    </ul>
-
-                    <div class="d-grid">
-                        <button class="btn btn-primary btn-lg login-button"><i class="fa-solid fa-check-circle me-1"></i> Siparişi Tamamla</button>
-                    </div>
-
-                    <p class="text-center small text-muted mt-3">Siparişinizi tamamladığınızda, güvenli ödeme sistemleri üzerinden işleminiz gerçekleştirilecektir.</p>
-                </div>
-            </div>
+            <a href="index.php?sayfa=siparislerim" class="btn btn-dark btn-lg mt-4">Siparişlerime Git</a>
         </div>
-    </div>
-    
-    <footer class="site-footer bg-dark text-white py-5">
-        <div class="container">
+    <?php else: ?>
+        <form id="paymentForm" method="POST">
             <div class="row">
-                <div class="col-12 text-center small">© 2025 Günay. Tüm hakları saklıdır.</div>
-            </div>
-        </div>
-    </footer>
+                <div class="col-lg-8">
+                    <div class="card p-4 shadow-sm mb-4 border-0">
+                        <div class="form-section-title">Teslimat Bilgileri</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Adınız</label>
+                                <input type="text" name="ad" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Soyadınız</label>
+                                <input type="text" name="soyad" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">Açık Adres</label>
+                                <textarea name="adres" class="form-control" rows="2" required></textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Şehir</label>
+                                <input type="text" name="sehir" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Posta Kodu</label>
+                                <input type="text" name="posta_kodu" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Telefon</label>
+                                <input type="tel" name="telefon" class="form-control" placeholder="05XX XXX XX XX" required>
+                            </div>
+                        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+                        <div class="form-section-title">Ödeme Yöntemi</div>
+                        <div class="mb-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="payment_method" id="pay_card" value="Kredi Kartı" checked>
+                                <label class="form-check-label" for="pay_card">Kredi Kartı</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="payment_method" id="pay_eft" value="Havale/EFT">
+                                <label class="form-check-label" for="pay_eft">Havale / EFT</label>
+                            </div>
+                        </div>
+
+                        <div id="credit-card-area" class="row g-3 border rounded p-3 mb-4 bg-light">
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">Kart Numarası</label>
+                                <input type="text" id="kart_no" name="kart_no" class="form-control" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" inputmode="numeric">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Son Kullanma (MMYY)</label>
+                                <input type="text" id="son_kullanma" name="son_kullanma" class="form-control" placeholder="MMYY" maxlength="4" inputmode="numeric">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">CVV</label>
+                                <input type="text" id="cvv" name="cvv" class="form-control" placeholder="123" maxlength="3" inputmode="numeric">
+                            </div>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="sartlar" required>
+                            <label class="form-check-label small" for="sartlar">Mesafeli satış sözleşmesini okudum, onaylıyorum.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="summary-card-payment">
+                        <h5 class="fw-bold mb-4">Sipariş Özeti</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Ara Toplam:</span>
+                            <span><?php echo number_format($ara_toplam, 2, ',', '.'); ?> TL</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2 text-success">
+                            <span>Kargo:</span>
+                            <span>Ücretsiz</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="h5 fw-bold">Toplam:</span>
+                            <span class="h5 fw-bold text-danger"><?php echo number_format($odenecek_toplam, 2, ',', '.'); ?> TL</span>
+                        </div>
+                        <button type="submit" name="complete_order" class="btn btn-primary btn-lg w-100 login-button">
+                            Siparişi Tamamla
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <?php endif; ?>
+</div>
+
+<script>
+    document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const cardArea = document.getElementById('credit-card-area');
+            const cardInputs = cardArea.querySelectorAll('input');
+            if (this.value === 'Havale/EFT') {
+                cardArea.style.display = 'none';
+                cardInputs.forEach(i => i.required = false);
+            } else {
+                cardArea.style.display = 'flex';
+                cardInputs.forEach(i => i.required = true);
+            }
+        });
+    });
+
+    document.getElementById('kart_no').addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
+    });
+</script>
+
 </body>
 </html>

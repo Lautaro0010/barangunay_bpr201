@@ -1,56 +1,59 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ankastre Setler - Günay | Yeni Düzen</title>
+<?php
 
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/248da3bf98.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+$kategori_id = 1; 
+
+$sorgu = $db->prepare("SELECT * FROM urunler WHERE kategori_id = ? ORDER BY id DESC");
+$sorgu->execute([$kategori_id]);
+$urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
+$urun_sayisi = count($urunler);
+?>
+
+<style>
+    .product-list-page { padding: 40px 0; }
+    .product-card {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        height: 100%;
+        background: #fff;
+    }
+    .product-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-color: #343a40; 
+        transform: translateY(-5px);
+    }
+    .product-card img {
+        max-height: 200px;
+        object-fit: contain;
+        width: 100%;
+        padding: 15px;
+    }
+    .product-price-main {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #343a40; 
+    }
     
-    <style>
-        body { background-color: #f8f9fa; }
-        .product-list-page { padding: 40px 0; }
-        .product-card {
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            height: 100%;
-            background: #fff;
-        }
-        .product-card:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            border-color: #007bff;
-        }
-        .product-card img {
-            max-height: 200px;
-            object-fit: contain;
-            width: 100%;
-            padding: 15px;
-        }
-        .product-price-main {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #1557ad;
-        }
-    </style>
-</head>
-
-<body>
+    .btn-dark {
+        background-color: #343a40 !important;
+        border-color: #343a40 !important;
+    }
+    .btn-dark:hover {
+        background-color: #23272b !important;
+    }
+</style>
 
 <div class="container product-list-page">
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none">Ana Sayfa</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Ankastre Setler (6 Ürün)</li>
+        <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none text-muted">Ana Sayfa</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Ankastre Setler (<?php echo $urun_sayisi; ?> Ürün)</li>
       </ol>
     </nav>
         
     <div class="col-lg-12">
         <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
-            <p class="mb-0 fw-bold">Gösterilen Ürün: <span class="text-primary">6</span></p>
+            <p class="mb-0 fw-bold">Gösterilen Ürün: <span class="text-dark"><?php echo $urun_sayisi; ?></span></p>
             <div class="d-flex align-items-center">
                 <label for="sort-by" class="form-label me-2 mb-0 small text-muted">Sırala:</label>
                 <select id="sort-by" class="form-select form-select-sm" style="width: 150px;">
@@ -62,121 +65,46 @@
         </div>
         
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-            
-            <div class="col">
-                <div class="card product-card h-100 p-2">
-                    <a href="urun-detay.php?model=DWK91LT60">
-                        <img src="img/ankastre-DWK91LT60.webp" class="card-img-top" alt="Serie 8 Ankastre Set">
-                    </a>
-                    <div class="card-body text-center d-flex flex-column justify-content-between">
-                        <h5 class="card-title fw-bold small mb-1">Serie 8</h5>
-                        <p class="card-text text-muted small mb-3">Duvar Tipi Davlumbaz 90 cm Siyah Cam Premium Set</p>
-                        <div class="mt-auto">
-                            <p class="product-price-main mb-3">₺65.190,00</p>
-                            <a href="sepet.php?action=add&model=DWK91LT60" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                            <small class="d-block mt-2"><a href="urun-detay.php?model=DWK91LT60" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
+            <?php if($urun_sayisi > 0): ?>
+                <?php foreach($urunler as $u): ?>
+                <div class="col">
+                    <div class="card product-card h-100 p-2">
+                        <a href="index.php?sayfa=urun_detay&id=<?php echo $u['id']; ?>">
+                            <img src="img/<?php echo !empty($u['resim_yolu']) ? $u['resim_yolu'] : 'no-image.jpg'; ?>" 
+                                 class="card-img-top" 
+                                 alt="<?php echo htmlspecialchars($u['baslik']); ?>">
+                        </a>
+                        <div class="card-body text-center d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title fw-bold small mb-1"><?php echo htmlspecialchars($u['baslik']); ?></h5>
+                                <p class="card-text text-muted small mb-3"><?php echo htmlspecialchars($u['model_kodu'] ?? ''); ?></p>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <p class="product-price-main mb-3">₺<?php echo number_format($u['fiyat'], 2, ',', '.'); ?></p>
+                                
+                                <?php if($u['stok'] > 0): ?>
+                                    <a href="index.php?sayfa=sepet&action=add&model=<?php echo $u['model_kodu']; ?>" class="btn btn-dark w-100">
+                                        <i class="fas fa-shopping-cart me-2"></i> Sepete Ekle
+                                    </a>
+                                <?php else: ?>
+                                    <button class="btn btn-secondary w-100" disabled>Stokta Yok</button>
+                                <?php endif; ?>
+                                
+                               <small class="d-block mt-2">
+                                    <a href="urun-detay.php?model=<?php echo $u['model_kodu']; ?>" class="text-decoration-none text-primary">Ürün Detayını İncele</a>
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col">
-                <div class="card product-card h-100 p-2">
-                    <a href="urun-detay.php?model=DIB97IM50">
-                        <img src="img/ankastre-DIB97IM50.webp" class="card-img-top" alt="Serie 4 Ada Tipi Set">
-                    </a>
-                    <div class="card-body text-center d-flex flex-column justify-content-between">
-                        <h5 class="card-title fw-bold small mb-1">Serie 4</h5>
-                        <p class="card-text text-muted small mb-3">Ada Tipi Davlumbaz 90 cm Paslanmaz Çelik Set</p>
-                        <div class="mt-auto">
-                            <p class="product-price-main mb-3">₺60.450,00</p>
-                            <a href="sepet.php?action=add&model=DIB97IM50" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                            <small class="d-block mt-2"><a href="urun-detay.php?model=DIB97IM50" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
-                        </div>
-                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12 text-center py-5">
+                    <i class="fa-solid fa-layer-group fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Bu kategoride henüz ankastre set bulunmuyor.</p>
                 </div>
-            </div>
-
-            <div class="col">
-                <div class="card product-card h-100 p-2">
-                    <a href="urun-detay.php?model=DWK97PJ70T">
-                        <img src="img/ankastre-DWK97PJ70T.webp" class="card-img-top" alt="Serie 6 Gri Set">
-                    </a>
-                    <div class="card-body text-center d-flex flex-column justify-content-between">
-                        <h5 class="card-title fw-bold small mb-1">Serie 6</h5>
-                        <p class="card-text text-muted small mb-3">Duvar Tipi Davlumbaz 90 cm Gri Cam Tasarım Set</p>
-                        <div class="mt-auto">
-                            <p class="product-price-main mb-3">₺30.350,00</p>
-                            <a href="sepet.php?action=add&model=DWK97PJ70T" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                            <small class="d-block mt-2"><a href="urun-detay.php?model=DWK97PJ70T" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card product-card h-100 p-2">
-                    <a href="urun-detay.php?model=DWF95AJ20T">
-                        <img src="img/ankastre-DWF95AJ20T.webp" class="card-img-top" alt="Serie 4 Beyaz Set">
-                    </a>
-                    <div class="card-body text-center d-flex flex-column justify-content-between">
-                        <h5 class="card-title fw-bold small mb-1">Serie 4</h5>
-                        <p class="card-text text-muted small mb-3">Duvar Tipi 90 cm Beyaz Cam Yüzey Ankastre Set</p>
-                        <div class="mt-auto">
-                            <p class="product-price-main mb-3">₺26.220,00</p>
-                            <a href="sepet.php?action=add&model=DWF95AJ20T" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                            <small class="d-block mt-2"><a href="urun-detay.php?model=DWF95AJ20T" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card product-card h-100 p-2">
-                    <a href="urun-detay.php?model=DWF95AJ60T">
-                        <img src="img/ankastre-DWF95AJ60T.webp" class="card-img-top" alt="Serie 4 Siyah Set">
-                    </a>
-                    <div class="card-body text-center d-flex flex-column justify-content-between">
-                        <h5 class="card-title fw-bold small mb-1">Serie 4</h5>
-                        <p class="card-text text-muted small mb-3">Duvar Tipi 90 cm Siyah Cam Yüzey Ankastre Set</p>
-                        <div class="mt-auto">
-                            <p class="product-price-main mb-3">₺26.220,00</p>
-                            <a href="sepet.php?action=add&model=DWF95AJ60T" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                            <small class="d-block mt-2"><a href="urun-detay.php?model=DWF95AJ60T" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card product-card h-100 p-2">
-                    <a href="urun-detay.php?model=DWK67PJ70T">
-                        <img src="img/ankastre-DWK67PJ70T.webp" class="card-img-top" alt="Serie 6 Gri 60cm Set">
-                    </a>
-                    <div class="card-body text-center d-flex flex-column justify-content-between">
-                        <h5 class="card-title fw-bold small mb-1">Serie 6</h5>
-                        <p class="card-text text-muted small mb-3">Duvar Tipi Davlumbaz 60 cm Gri Ankastre Set</p>
-                        <div class="mt-auto">
-                            <p class="product-price-main mb-3">₺20.880,00</p>
-                            <a href="sepet.php?action=add&model=DWK67PJ70T" class="btn btn-dark w-100"><i class="fas fa-shopping-cart me-2"></i> Sepete Ekle</a>
-                            <small class="d-block mt-2"><a href="urun-detay.php?model=DWK67PJ70T" class="text-decoration-none text-primary">Ürün Detayını İncele</a></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
+            <?php endif; ?>
         </div>
-        
-        <nav class="mt-5">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled"><a class="page-link" href="#">Önceki</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">Sonraki</a></li>
-            </ul>
-        </nav>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

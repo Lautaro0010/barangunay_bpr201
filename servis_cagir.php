@@ -1,134 +1,71 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Günay - Servis Talebi Oluştur</title>
-    
-    <script src="https://kit.fontawesome.com/248da3bf98.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="login_style.css">
+<?php
 
-    <style>
-        .fixed-nav-top {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1030;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
-        }
-        
-        .servis-page-content {
-            padding-top: -10px; 
-            min-height: auto;
-            display: flex; 
-            align-items: flex-start; 
-            justify-content: center; 
-            width: 100%; 
-            padding-bottom: 20px; 
-        }
+?>
 
-        
-        .login-card {
-            margin-top: 0px; 
-            margin-bottom: 40px;
-            width: 100%; 
-        }
-        
-        .header-nav .nav-link.active-custom {
-            color: #212529 !important; 
-            font-weight: 600;
-        }
-    </style>
-</head>
-
-<body class="bg-light">
-
-<br><br>
-<div class="container servis-page-content">
-    <div class="row justify-content-center w-100">
-        <div class="col-lg-9 col-md-11"> 
-            <div class="login-card d-md-flex">
-                
-                <div class="col-md-6 login-illustration">
-                    <h4>Hızlı Teknik Destek</h4>
-                    <p>Uzman teknik ekibimizle hızlı ve güvenilir servis hizmeti almak için formu doldurunuz. Garanti sorgulama, onarım ve kurulum hizmetleri.</p>
-                </div>
-                
-                <div class="col-md-6 login-form-area">
-                    <h2 class="text-center"><i class="fa-solid fa-screwdriver-wrench me-2"></i> Servis Çağır</h2>
+<div class="login-page py-4">
+    <div class="container servis-page-content">
+        <div class="row justify-content-center w-100 g-0">
+            <div class="col-lg-10 col-md-11"> 
+                <div class="login-card d-md-flex shadow-lg rounded overflow-hidden">
                     
-                    <form action="servis_talep_gonder.php" method="POST">
-                        
-                        <h5 class="mb-3 text-muted">1. İletişim Bilgileri</h5>
-                        <div class="mb-3">
-                            <label for="isim_soyisim" class="form-label fw-bold">Adınız ve Soyadınız</label>
-                            <input type="text" id="isim_soyisim" name="isim_soyisim" class="form-control" placeholder="Ad Soyad" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="telefon" class="form-label fw-bold">Telefon Numarası</label>
-                            <input type="tel" id="telefon" name="telefon" class="form-control" placeholder="(5XX) XXX XX XX" required>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="adres" class="form-label fw-bold">Servis Adresi</label>
-                            <textarea id="adres" name="adres" class="form-control" rows="2" placeholder="Mahalle, Cadde, No, İl/İlçe" required></textarea>
-                        </div>
-                        
-                        <h5 class="mb-3 text-muted">2. Ürün ve Arıza Bilgisi</h5>
-                        
-                        <div class="mb-3">
-                            <label for="urun_tipi" class="form-label fw-bold">Ürün Tipi</label>
-                            <select id="urun_tipi" name="urun_tipi" class="form-select" required>
-                                <option value="" disabled selected>Lütfen seçiniz</option>
-                                <option value="Buzdolabı">Buzdolabı</option>
-                                <option value="Çamaşır Makinesi">Çamaşır Makinesi</option>
-                                <option value="Bulaşık Makinesi">Bulaşık Makinesi</option>
-                                <option value="Fırın/Ocak">Fırın/Ocak</option>
-                                <option value="Süpürge">Süpürge</option>
-                                <option value="Diğer">Diğer Küçük Ev Aletleri</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="ariza_aciklama" class="form-label fw-bold">Arıza Açıklaması</label>
-                            <textarea id="ariza_aciklama" name="ariza_aciklama" class="form-control" rows="3" placeholder="Örnek: Buzdolabı soğutmuyor, Çamaşır makinesi su almıyor vb." required></textarea>
-                        </div>
-
-                        <div class="d-grid gap-2 mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg login-button">Servis Çağrısı Oluştur</button>
-                        </div>
-                    </form>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 12px;">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold" id="searchModalLabel" style="color: #343a40;">Hangi ürünü arıyorsunuz?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
-            </div>
-            <div class="modal-body pt-2">
-                <form action="arama_sonuc.php" method="GET">
-                    <div class="input-group input-group-lg">
-                        <input type="search" class="form-control" placeholder="Ürün adı, model numarası veya kategori..." aria-label="Arama" name="query" required>
-                        <button class="btn btn-dark text-white" type="submit"><i class="fa-solid fa-magnifying-glass me-2"></i> Ara</button>
+                    <div class="col-md-5 login-illustration p-5 d-flex flex-column justify-content-center text-center">
+                        <h4 class="fw-bold">Hızlı Teknik Destek</h4>
+                        <p class="mt-3">Uzman teknik ekibimizle hızlı ve güvenilir servis hizmeti almak için formu doldurunuz. Garanti sorgulama, onarım ve kurulum hizmetleri.</p>
+                        <i class="fa-solid fa-tools fa-4x mt-4 opacity-50"></i>
                     </div>
-                </form>
+                    
+                    <div class="col-md-7 login-form-area p-5 bg-white">
+                        <h2 class="text-center mb-4"><i class="fa-solid fa-screwdriver-wrench me-2"></i> Servis Çağır</h2>
+                        
+                        <form action="servis_talep_gonder.php" method="POST">
+                            
+                            <h5 class="mb-3 text-muted border-bottom pb-2">1. İletişim Bilgileri</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="isim_soyisim" class="form-label fw-bold small">Adınız ve Soyadınız</label>
+                                    <input type="text" id="isim_soyisim" name="isim_soyisim" class="form-control" placeholder="Ad Soyad" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="telefon" class="form-label fw-bold small">Telefon Numarası</label>
+                                    <input type="tel" id="telefon" name="telefon" class="form-control" placeholder="(5XX) XXX XX XX" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="adres" class="form-label fw-bold small">Servis Adresi</label>
+                                <textarea id="adres" name="adres" class="form-control" rows="2" placeholder="Mahalle, Cadde, No, İl/İlçe" required></textarea>
+                            </div>
+                            
+                            <h5 class="mb-3 text-muted border-bottom pb-2">2. Ürün ve Arıza Bilgisi</h5>
+                            
+                            <div class="mb-3">
+                                <label for="urun_tipi" class="form-label fw-bold small">Ürün Tipi</label>
+                                <select id="urun_tipi" name="urun_tipi" class="form-select" required>
+                                    <option value="" disabled selected>Lütfen seçiniz</option>
+                                    <option value="Buzdolabı">Buzdolabı</option>
+                                    <option value="Çamaşır Makinesi">Çamaşır Makinesi</option>
+                                    <option value="Bulaşık Makinesi">Bulaşık Makinesi</option>
+                                    <option value="Fırın/Ocak">Fırın/Ocak</option>
+                                    <option value="Süpürge">Süpürge</option>
+                                    <option value="Diğer">Diğer Küçük Ev Aletleri</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="ariza_aciklama" class="form-label fw-bold small">Arıza Açıklaması</label>
+                                <textarea id="ariza_aciklama" name="ariza_aciklama" class="form-control" rows="3" placeholder="Örnek: Buzdolabı soğutmuyor..." required></textarea>
+                            </div>
+
+                            <div class="d-grid gap-2 mb-3">
+    <button type="submit" class="btn btn-dark btn-lg login-button shadow-sm">
+        <i class="fa-solid fa-screwdriver-wrench me-2"></i> Servis Çağrısı Oluştur
+    </button>
+</div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>

@@ -1,25 +1,55 @@
 <?php 
-// 1. Veritabanı Bağlantısı
-// baglan.php dosyanın adından emin ol, gerekirse burayı düzelt
+
 include 'db.php'; 
 
-// 2. URL'den Model Kodunu Yakalama
+
+function normalize_turkish($str) {
+    $search = ['ı', 'ğ', 'ü', 'ş', 'ö', 'ç', 'İ', 'Ğ', 'Ü', 'Ş', 'Ö', 'Ç'];
+    $replace = ['i', 'g', 'u', 's', 'o', 'c', 'I', 'G', 'U', 'S', 'O', 'C'];
+    return str_replace($search, $replace, $str);
+}
+
+
 if (isset($_GET['model'])) {
     $gelen_model = $_GET['model'];
 
-    // 3. Veritabanı Sorgusu
-    // urunler tablosundan model_kodu eşleşen ürünü getiriyoruz
+    
     $sorgu = $db->prepare("SELECT * FROM urunler WHERE model_kodu = :kod");
     $sorgu->execute(['kod' => $gelen_model]);
     $urun = $sorgu->fetch(PDO::FETCH_ASSOC);
 
-    // Ürün bulunamazsa ana sayfaya yönlendir
     if (!$urun) {
         header("Location: index.php");
         exit;
     }
+
+    
+    $model_kodu = $urun['model_kodu'];
+    $resim = $urun['resim'] ?? ''; 
+
+    if (empty($resim)) {
+        $model_normalized = normalize_turkish(strtolower($model_kodu));
+        $prefix = '';
+        $first_char = strtoupper(substr($model_kodu, 0, 1));
+        
+        switch ($first_char) {
+            case 'K': $prefix = 'buzdolabı-'; break;
+            case 'W': $prefix = 'camasır-'; break;
+            case 'P': $prefix = 'ocak-'; break;
+            case 'H': $prefix = 'firin-'; break;
+            case 'D': $prefix = 'ankastre-'; break;
+            case 'S': $prefix = 'bulasik-'; break;
+            case 'B': $prefix = 'supurge-'; break;
+            case 'R': $prefix = 'su_sebilleri-'; break;
+            case 'T': case 'C': case 'M': case 'L': $prefix = 'ev_aleti-'; break;
+        }
+        $resim = $prefix . $model_normalized . '.webp';
+    }
+    
+    $tam_resim_yolu = 'img/' . $resim;
+    
+
 } else {
-    // Model parametresi yoksa ana sayfaya yönlendir
     header("Location: index.php");
     exit;
 }
@@ -39,8 +69,6 @@ if (isset($_GET['model'])) {
     <style>
         body { font-family: 'Roboto', sans-serif; background-color: #f8f9fa; }
         .product-container { padding: 60px 0; }
-        
-        /* Ürün Resim Alanı */
         .img-wrapper {
             background: #fff;
             padding: 40px;
@@ -54,8 +82,6 @@ if (isset($_GET['model'])) {
             width: 100%;
             object-fit: contain;
         }
-
-        /* Bilgi Alanı */
         .price-text {
             font-size: 2.8rem;
             font-weight: 800;
@@ -100,14 +126,14 @@ if (isset($_GET['model'])) {
     <div class="row g-5">
         <div class="col-lg-6">
             <div class="img-wrapper text-center">
-                <img src="<?php echo $urun['resim_yolu']; ?>" alt="<?php echo $urun['baslik']; ?>">
+                <img src="<?php echo $tam_resim_yolu; ?>" alt="<?php echo htmlspecialchars($urun['baslik']); ?>">
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="ps-lg-4">
                 <span class="model-badge">MODEL: <?php echo $urun['model_kodu']; ?></span>
-                <h1 class="display-5 fw-bold mt-3 mb-2"><?php echo $urun['baslik']; ?></h1>
+                <h1 class="display-5 fw-bold mt-3 mb-2"><?php echo htmlspecialchars($urun['baslik']); ?></h1>
                 
                 <div class="price-text">
                     ₺<?php echo number_format($urun['fiyat'], 2, ',', '.'); ?>
@@ -115,11 +141,11 @@ if (isset($_GET['model'])) {
 
                 <div class="desc-box shadow-sm">
                     <h5 class="fw-bold mb-3"><i class="fa-solid fa-list-check me-2 text-primary"></i> Ürün Özellikleri</h5>
-                    <p class="text-muted mb-0"><?php echo $urun['kisa_aciklama']; ?></p>
+                    <p class="text-muted mb-0"><?php echo nl2br(htmlspecialchars($urun['kisa_aciklama'])); ?></p>
                 </div>
 
                 <div class="d-grid gap-3">
-                    <a href="sepet.php?action=add&model=<?php echo $urun['model_kodu']; ?>" class="btn btn-dark btn-buy shadow">
+                    <a href="index.php?sayfa=sepet&action=add&model=<?php echo $urun['model_kodu']; ?>" class="btn btn-dark btn-buy shadow">
                         <i class="fa-solid fa-cart-shopping me-2"></i> SEPETE EKLE
                     </a>
                     

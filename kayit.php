@@ -36,47 +36,7 @@
 
 <body>
     
-<nav class="navbar navbar-expand-lg navbar-light bg-white py-2 header-top sticky-top">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="index.php">
-            <img src="img/logo.png" alt="Günay Logo" style="height: 35px; margin-right: 8px;">Günay
-        </a>
 
-        <div class="d-flex order-lg-3">
-            <a href="uye_giris.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                <i class="fa-solid fa-user me-1"></i> Üye Girişi
-            </a>
-            <a href="servis_cagir.php" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
-                <i class="fa-solid fa-screwdriver-wrench me-1"></i> Servis
-            </a>
-            <a href="sepet.php" class="btn btn-light border me-2">
-                <i class="fa-solid fa-cart-shopping text-dark"></i> <span class="badge bg-dark text-white ms-1">0</span>
-            </a>
-        </div>
-        
-    </div>
-</nav>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light p-0 header-nav border-bottom sticky-top"> 
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav py-2">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" aria-current="page" href="index.php"><i class="fa-solid fa-list me-2"></i>Ürünlerimiz</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="kampanyalar.php">Kampanyalar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="iletisim.php">İletişim</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 <div class="container main-content-area">
     <div class="row justify-content-center">
@@ -122,12 +82,12 @@
                     </div>
                     
                     <div class="d-grid gap-2 mb-3">
-                        <button type="submit" class="btn btn-primary btn-lg register-button">Kayıt Ol</button>
-                    </div>
+    <button type="submit" class="btn btn-primary btn-lg login-button">Kayıt Ol</button>
+</div>
                 </form>
                 
                 <div class="text-center mt-3">
-                    <small class="text-muted">Zaten hesabınız var mı? <a href="uye_giris.php" class="text-primary fw-bold">Giriş Yap</a></small>
+                    <small class="text-muted">Zaten hesabınız var mı? <a href="index.php?sayfa=uye_giris" class="text-primary fw-bold">Giriş Yap</a></small>
                 </div>
 
             </div>

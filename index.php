@@ -2,21 +2,15 @@
 session_start();
 require 'db.php';
 
-// Sepet içeriği sayacı (navbar için)
+
 $cart_count = isset($_SESSION['sepet']) && is_array($_SESSION['sepet']) ? count($_SESSION['sepet']) : 0;
 
-// =================================================================
-// 1. DİNAMİK YÖNLENDİRME (SWITCH-CASE) VE İÇERİK TANIMLAMA
-// =================================================================
 
-// URL'den gelen 'sayfa' parametresini yakala. Eğer yoksa, varsayılan olarak 'ana_sayfa' olsun.
 $page = isset($_GET['sayfa']) ? $_GET['sayfa'] : 'ana_sayfa';
 $pageTitle = 'Günay';
-$contentFile = null; // Yüklenecek harici dosyanın yolu
+$contentFile = null; 
 
-// ===================================
-// SAYFA YÖNLENDİRME MANTIĞI (SWITCH)
-// ===================================
+
 
 switch ($page) {
     case 'ana_sayfa':
@@ -24,7 +18,7 @@ switch ($page) {
         $pageTitle = 'Günay';
         break;
 
-    // Ürün Kategori Sayfaları
+    
     case 'buzdolaplari':
     case 'camasir':
     case 'bulasik':
@@ -38,12 +32,11 @@ switch ($page) {
         $contentFile = $page . '.php';
         break;
 
-    // Harici dosya adları, sayfa adından farklı olanlar (Örn: uye_giris.php)
+    
     case 'uye_giris':
     case 'servis_cagir':
     case 'sepet':
     case 'kampanyalar':
-    case 'one_cikanlar':
     case 'iletisim':
     case 'kayit':           
     case 'sifre_unuttum':   
@@ -51,7 +44,7 @@ switch ($page) {
         $pageTitle = ucfirst(str_replace('_', ' ', $page)) . ' | Günay';
         $contentFile = $page . '.php';
         break;
-    // Yeni eklenenler için (Örn: SSS, Garanti)
+    
     case 'sss':
     case 'garanti':
         $pageTitle = ucfirst(str_replace('_', ' ', $page)) . ' | Günay';
@@ -78,7 +71,7 @@ switch ($page) {
         break;
 }
 
-// $isLoginPage değişkeni, uye_giris.php gibi sayfalarda navbar'ı fixed'den ayırmak için kullanıldı
+
 $isLoginPage = ($page === 'uye_giris' || $page === 'kayit' || $page === 'sifre_unuttum');
 
 ?>
@@ -112,18 +105,27 @@ $isLoginPage = ($page === 'uye_giris' || $page === 'kayit' || $page === 'sifre_u
             </a>
 
             <div class="d-flex order-lg-3">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user me-1"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="index.php?sayfa=profilim">Profilim</a></li>
-                            <li><a class="dropdown-item" href="index.php?sayfa=siparislerim">Siparişlerim</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="logout.php">Çıkış Yap</a></li>
-                        </ul>
-                    </div>
+    <?php if (isset($_SESSION['user_id'])): ?>
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user me-1"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
+            </button>
+            <ul class="dropdown-menu">
+                <?php if (isset($_SESSION['user_rol']) && $_SESSION['user_rol'] === 'admin'): ?>
+                    <li>
+                        <a class="dropdown-item fw-bold text-danger" href="admin_panel.php">
+                            <i class="fa-solid fa-shield-halved me-2"></i>Yönetim Paneli
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                <?php endif; ?>
+
+                <li><a class="dropdown-item" href="index.php?sayfa=profilim">Profilim</a></li>
+                <li><a class="dropdown-item" href="index.php?sayfa=siparislerim">Siparişlerim</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="logout.php">Çıkış Yap</a></li>
+            </ul>
+        </div>
                 <?php else: ?>
                     <a href="index.php?sayfa=uye_giris" class="btn btn-outline-secondary border-0 me-2 d-none d-sm-inline-block">
                         <i class="fa-solid fa-user me-1"></i> Üye Girişi
@@ -165,7 +167,7 @@ $isLoginPage = ($page === 'uye_giris' || $page === 'kayit' || $page === 'sifre_u
 </div> 
 <main class="main-content">
 <?php 
-// Sadece anasayfadaysak (parametre yoksa), tüm büyük görselleri, tanıtımları ve alt section'ları göster
+
 if ($page === 'ana_sayfa' || $page === 'index'): 
 ?>
 <br>
@@ -464,17 +466,17 @@ Sipariş takibi ve teslimat seçenekleri (bina içi teslimat / randevulu teslima
 
 
 <?php 
-// ANA SAYFA İÇERİĞİ SONU (endif)
+
 endif; 
 ?>
 
 <?php 
-// Eğer $contentFile tanımlıysa ve dosya mevcutsa, içeriği yükle (INCLUDE)
+
 if ($contentFile && file_exists($contentFile)) {
-    // Harici dosyanın içeriğini tam buraya dahil et
+    
     include($contentFile);
 } elseif ($contentFile) {
-    // 404 sayfasına yönlendirmediğimiz ancak bulunamayan sayfalar için hata mesajı
+    
     echo "<div class='container my-5'><div class='alert alert-danger text-center'>Hata: Yüklenmesi gereken sayfa dosyası ($contentFile) bulunamadı! Lütfen dosya adının doğru olduğundan emin olun.</div></div>";
 }
 ?>

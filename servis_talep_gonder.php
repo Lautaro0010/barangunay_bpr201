@@ -1,8 +1,8 @@
 <?php
-include 'db.php'; // Veritabanı bağlantı dosyan
+include 'db.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Form verilerini alıyoruz
+    
     $isim_soyisim  = $_POST['isim_soyisim'];
     $telefon       = $_POST['telefon'];
     $adres         = $_POST['adres'];
@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ariza_aciklama = $_POST['ariza_aciklama'];
 
     try {
-        // Veritabanına kayıt sorgusu
+        
         $sorgu = $db->prepare("INSERT INTO servis_talepleri (isim_soyisim, telefon, adres, urun_tipi, ariza_aciklama) VALUES (?, ?, ?, ?, ?)");
         $ekle = $sorgu->execute([$isim_soyisim, $telefon, $adres, $urun_tipi, $ariza_aciklama]);
 

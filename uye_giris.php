@@ -1,6 +1,9 @@
     <!DOCTYPE html>
     <html lang="tr">
-    <head>
+    <head>  
+        <?php
+        require 'db.php'; 
+        ?>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Günay - Üye Girişi</title>
@@ -52,7 +55,7 @@
                         <div class="col-md-6 login-illustration">
                             <h4>Hesabınıza Giriş Yapın</h4>
                             <p>Hızlı ve güvenli alışveriş deneyimi için giriş yapın veya yeni bir hesap oluşturun.</p>
-                            <a href="kayit.php" class="btn btn-outline-light mt-3">Hemen Üye Ol</a>
+                            <a href="index.php?sayfa=kayit" class="btn btn-outline-light mt-3">Hemen Üye Ol</a>
                         </div>
                         
                         <div class="col-md-6 login-form-area">
@@ -61,8 +64,8 @@
                             <form action="login_process.php" method="POST">
                                 
                                 <div class="mb-3">
-                                    <label for="username" class="form-label fw-bold">Kullanıcı Adı / E-posta</label>
-                                    <input type="text" id="username" name="username" class="form-control" placeholder="E-posta adresiniz veya kullanıcı adınız" required>
+                                    <label for="username" class="form-label fw-bold"> E-posta</label>
+                                    <input type="text" id="username" name="username" class="form-control" placeholder="E-posta adresiniz " required>
                                 </div>
                                 
                                 <div class="mb-4">
@@ -76,8 +79,7 @@
                             </form>
                             
                             <div class="text-center forgot-password">
-                                <a href="sifre_unuttum.php" class="me-2">Şifremi Unuttum</a> | 
-                                <a href="kayit.php" class="ms-2">Hesabın yok mu? </a>
+                                <a href="index.php?sayfa=sifre_unuttum" class="me-2">Şifremi Unuttum</a>
                             </div>
                         </div>
                     </div>

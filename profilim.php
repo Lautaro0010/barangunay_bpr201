@@ -1,5 +1,5 @@
 <?php
-// Güvenlik: Giriş yapılmamışsa ana sayfaya at
+
 if (!isset($_SESSION['user_id'])) {
     echo "<script>window.location.href='index.php?sayfa=uye_giris';</script>";
     exit();
@@ -8,9 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $mesaj = "";
 
-// ===================================
-// GÜNCELLEME İŞLEMİ (POST)
-// ===================================
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['profil_guncelle'])) {
     $ad = $_POST['ad'];
     $soyad = $_POST['soyad'];
@@ -19,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['profil_guncelle'])) {
 
     $guncelle = $db->prepare("UPDATE kullanicilar SET ad = ?, soyad = ?, telefon = ?, email = ? WHERE id = ?");
     if ($guncelle->execute([$ad, $soyad, $telefon, $email, $user_id])) {
-        // Session bilgilerini de güncelle ki navbar'daki isim değişsin
+        
         $_SESSION['user_name'] = $ad . ' ' . $soyad;
         $mesaj = "<div class='alert alert-success'>Bilgileriniz başarıyla güncellendi!</div>";
     } else {
@@ -27,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['profil_guncelle'])) {
     }
 }
 
-// Güncel bilgileri çek
+
 $sorgu = $db->prepare("SELECT * FROM kullanicilar WHERE id = ?");
 $sorgu->execute([$user_id]);
 $user = $sorgu->fetch(PDO::FETCH_ASSOC);

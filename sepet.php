@@ -5,14 +5,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 include 'db.php';
 
-// Türkçe karakterleri normalize etme fonksiyonu
+
 function normalize_turkish($str) {
     $search = ['ı', 'ğ', 'ü', 'ş', 'ö', 'ç', 'İ', 'Ğ', 'Ü', 'Ş', 'Ö', 'Ç'];
     $replace = ['i', 'g', 'u', 's', 'o', 'c', 'I', 'G', 'U', 'S', 'O', 'C'];
     return str_replace($search, $replace, $str);
 }
 
-// Sepete ürün ekleme işlemi
+
 if (isset($_GET['action']) && $_GET['action'] == 'add' && isset($_GET['model'])) {
     $model_kodu = $_GET['model'];
     
@@ -63,25 +63,29 @@ if (isset($_GET['action']) && $_GET['action'] == 'add' && isset($_GET['model']))
                 'adet' => 1
             );
         }
-        header('Location: index.php?sayfa=sepet');
+        
+        echo "<script>window.location.href='index.php?sayfa=sepet';</script>";
         exit;
     }
 }
 
-// Sepetten ürün kaldırma
+
 if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    if (isset($_SESSION['sepet'][$id])) {
-        unset($_SESSION['sepet'][$id]);
+    $silinecek_id = $_GET['id'];
+    
+    if (isset($_SESSION['sepet'][$silinecek_id])) {
+        unset($_SESSION['sepet'][$silinecek_id]);
         $_SESSION['sepet'] = array_values($_SESSION['sepet']);
     }
-    header('Location: index.php?sayfa=sepet');
+    
+    
+    echo "<script>window.location.href='index.php?sayfa=sepet';</script>";
     exit;
 }
 
 $genel_toplam = 0;
 $urun_sayisi = isset($_SESSION['sepet']) ? count($_SESSION['sepet']) : 0;
-$giris_yapilmis_mi = isset($_SESSION['user_id']); // Kullanıcı giriş kontrolü
+$giris_yapilmis_mi = isset($_SESSION['user_id']); 
 ?>
 <!DOCTYPE html>
 <html lang="tr">

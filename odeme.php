@@ -3,13 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Veritabanı bağlantısı
+
 include 'db.php';
 
-// Kullanıcı giriş yapmamışsa uyaralım (İsteğe bağlı ama önerilir)
+
 $user_id = $_SESSION['user_id'] ?? null;
 
-// Sepet tutarını hesapla
+
 $ara_toplam = 0.0;
 if (isset($_SESSION['sepet']) && is_array($_SESSION['sepet'])) {
     foreach ($_SESSION['sepet'] as $it) {
@@ -22,7 +22,7 @@ if (isset($_SESSION['sepet']) && is_array($_SESSION['sepet'])) {
 $odenecek_toplam = $ara_toplam;
 $order_confirmed = false;
 
-// Sipariş tamamlama işlemi
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
     $ad = trim($_POST['ad'] ?? '');
     $soyad = trim($_POST['soyad'] ?? '');
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
 
     $order_id = 'ORD_' . strtoupper(uniqid());
 
-    // --- SADELEŞTİRİLMİŞ ÜRÜN LİSTESİ OLUŞTURMA ---
+    
     $simple_items = [];
     if (isset($_SESSION['sepet']) && is_array($_SESSION['sepet'])) {
         foreach ($_SESSION['sepet'] as $it) {
@@ -44,10 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
         }
     }
     $items_json = json_encode($simple_items, JSON_UNESCAPED_UNICODE);
-    // ---------------------------------------------
+    
 
     try {
-        // Tabloyu kontrol et ve user_id sütununu ekleyerek oluştur
+        
         $db->exec("CREATE TABLE IF NOT EXISTS siparisler (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT,
@@ -66,12 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
 
         $tarih_db = date('Y-m-d H:i:s');
 
-        // INSERT sorgusuna user_id eklendi
+       
         $insert = $db->prepare("INSERT INTO siparisler (user_id, order_id, tarih, ad, soyad, adres, sehir, posta_kodu, telefon, payment_method, toplam, items)
             VALUES (:user_id, :order_id, :tarih, :ad, :soyad, :adres, :sehir, :posta_kodu, :telefon, :payment_method, :toplam, :items)");
 
         $insert->execute([
-            ':user_id'        => $user_id, // Burası senin siparişlerim sayfasında görmeni sağlar
+            ':user_id'        => $user_id, 
             ':order_id'       => $order_id,
             ':tarih'          => $tarih_db,
             ':ad'             => $ad,
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
             ':items'          => $items_json
         ]);
 
-        // Bilgileri onay ekranı için session'a kaydet
+        
         $_SESSION['last_order'] = [
             'id' => $order_id,
             'ad' => $ad,
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
             'odenecek_toplam' => $odenecek_toplam
         ];
 
-        // Sepeti temizle
+        
         unset($_SESSION['sepet']);
         $order_confirmed = true;
 

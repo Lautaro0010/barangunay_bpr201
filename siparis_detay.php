@@ -1,5 +1,4 @@
 <?php
-// Güvenlik: Giriş yapılmamışsa uyar
 if (!isset($_SESSION['user_id'])) {
     echo "<script>window.location.href='index.php?sayfa=uye_giris';</script>";
     exit();
@@ -8,13 +7,12 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $order_id = $_GET['id'] ?? '';
 
-// Siparişi ve kullanıcıyı doğrula (Başkası başkasının siparişine bakamasın)
 $sorgu = $db->prepare("SELECT * FROM siparisler WHERE order_id = ? AND user_id = ?");
 $sorgu->execute([$order_id, $user_id]);
 $s = $sorgu->fetch(PDO::FETCH_ASSOC);
 
 if (!$s) {
-    echo "<div class='container my-5'><div class='alert alert-danger'>Sipariş bulunamadı veya bu işlem için yetkiniz yok.</div></div>";
+    echo "<div class='container my-5'><div class='alert alert-danger'>Sipariş bulunamadı veya yetkiniz yok.</div></div>";
     exit();
 }
 ?>
@@ -22,9 +20,9 @@ if (!$s) {
 <style>
     .detail-card { border: none; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
     .status-step { text-align: center; position: relative; flex: 1; }
-    .status-step i { width: 40px; height: 40px; line-height: 40px; border-radius: 50%; background: #e9ecef; color: #adb5bd; margin-bottom: 10px; }
-    .status-step.active i { background: #343a40; color: #fff; }
-    .status-step.active p { font-weight: bold; color: #343a40; }
+    .status-step i { width: 45px; height: 45px; line-height: 45px; border-radius: 50%; background: #e9ecef; color: #adb5bd; margin-bottom: 10px; transition: 0.3s; }
+    .status-step.active i { background: #0d6efd; color: #fff; box-shadow: 0 0 15px rgba(13,110,253,0.3); }
+    .status-step.active p { font-weight: bold; color: #0d6efd; }
     .item-row { border-bottom: 1px solid #f8f9fa; padding: 15px 0; }
     .item-row:last-child { border-bottom: none; }
 </style>
@@ -38,12 +36,26 @@ if (!$s) {
     <div class="row g-4">
         <div class="col-12">
             <div class="card detail-card p-4">
-                <div class="d-flex justify-content-between">
-                    <div class="status-step active"><i class="fa-solid fa-check"></i><p class="small mb-0">Sipariş Alındı</p></div>
-                    <div class="status-step"><i class="fa-solid fa-box-open"></i><p class="small mb-0">Hazırlanıyor</p></div>
-                    <div class="status-step"><i class="fa-solid fa-truck-fast"></i><p class="small mb-0">Kargoya Verildi</p></div>
-                    <div class="status-step"><i class="fa-solid fa-house-chimney"></i><p class="small mb-0">Teslim Edildi</p></div>
-                </div>
+                <?php if ($s['durum'] == 'İptal Edildi'): ?>
+                    <div class="text-center text-danger">
+                        <i class="fa-solid fa-circle-xmark fa-3x mb-2"></i>
+                        <h4 class="fw-bold">Bu sipariş iptal edilmiştir.</h4>
+                    </div>
+                <?php else: ?>
+                    <div class="d-flex justify-content-between">
+                        <?php 
+                            $d = $s['durum']; 
+                            $step1 = true; 
+                            $step2 = ($d == 'Onaylandı' || $d == 'Kargoda' || $d == 'Teslim Edildi');
+                            $step3 = ($d == 'Kargoda' || $d == 'Teslim Edildi');
+                            $step4 = ($d == 'Teslim Edildi');
+                        ?>
+                        <div class="status-step <?php echo $step1 ? 'active' : ''; ?>"><i class="fa-solid fa-check"></i><p class="small mb-0">Sipariş Alındı</p></div>
+                        <div class="status-step <?php echo $step2 ? 'active' : ''; ?>"><i class="fa-solid fa-box-open"></i><p class="small mb-0">Hazırlanıyor</p></div>
+                        <div class="status-step <?php echo $step3 ? 'active' : ''; ?>"><i class="fa-solid fa-truck-fast"></i><p class="small mb-0">Kargoda</p></div>
+                        <div class="status-step <?php echo $step4 ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney"></i><p class="small mb-0">Teslim Edildi</p></div>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -56,12 +68,12 @@ if (!$s) {
                         foreach($items as $item){
                             echo '
                             <div class="item-row d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="fw-semibold text-dark">'.htmlspecialchars($item).'</span>
-                                </div>
-                                <div class="text-success fw-bold">Onaylandı</div>
+                                <span class="fw-semibold text-dark">'.htmlspecialchars($item).'</span>
+                                <div class="text-success fw-bold small"><i class="fa-solid fa-check-circle me-1"></i> Onaylandı</div>
                             </div>';
                         }
+                    } else {
+                        echo '<div class="item-row">'.htmlspecialchars($s['items']).'</div>';
                     }
                 ?>
             </div>
@@ -95,10 +107,6 @@ if (!$s) {
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Tarih:</span>
                     <span><?php echo date('d.m.Y H:i', strtotime($s['tarih'])); ?></span>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Ödeme Tipi:</span>
-                    <span><?php echo htmlspecialchars($s['payment_method']); ?></span>
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between">
